@@ -5,9 +5,8 @@ namespace Arweave\SDK\Support;
 use Exception;
 use Arweave\SDK\Support\Wallet;
 use Arweave\SDK\Support\Helpers;
-use Jose\Component\Core\JWK;
-use Jose\Component\Core\Util\RSAKey;
-use phpseclib\Crypt\RSA;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
 
 class Transaction
 {
@@ -124,20 +123,15 @@ class Transaction
 
     public function verify(): bool
     {
-        $public_key = RSAKey::createFromJWK(new JWK([
+        $key_data = [
             'kty' => 'RSA',
             'e'   => 'AQAB',
             'n'   => $this->attributes['owner']
-        ]));
+        ];
 
-        $rsa = new RSA;
+        $key = PublicKeyLoader::load($key_data);
 
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS);
-        $rsa->setSaltLength(0);
-        $rsa->setHash('sha256');
-        $rsa->setMGFHash('sha256');
-
-        if (!$rsa->loadKey($public_key->toPEM())) {
+        if (!$key) {
             throw new Exception('Failed to create RSA key from transaction owner');
         }
 
@@ -145,6 +139,6 @@ class Transaction
 
         $signature = base64_decode(Helpers::base64urlDecode($this->attributes['signature']));
 
-        return $rsa->verify($message, $signature);
+        return $key->withHash('sha256')->withMGFHash('sha256')->withSaltLength(0)->verify($message, $signature);
     }
 }

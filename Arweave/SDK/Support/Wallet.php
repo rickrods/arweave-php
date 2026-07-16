@@ -1,9 +1,9 @@
 <?php
 
 namespace Arweave\SDK\Support;
-
 use Exception;
-use phpseclib\Crypt\RSA;
+use phpseclib3\Crypt\RSA;
+use phpseclib3\Crypt\RSA\Formats\Keys\JWK;
 use Jose\Component\Core\JWK;
 use Jose\Component\Core\Util\RSAKey;
 
@@ -13,7 +13,7 @@ class Wallet
 
     /**
      * Private key
-     * 
+     *
      * @var \phpseclib\Crypt\RSA
      */
     private $private;
@@ -71,19 +71,13 @@ class Wallet
 
     private function RSAPrivateFromJWK(array $jwk): RSA
     {
-        $private_key = RSAKey::createFromJWK(new JWK($jwk));
+        $key = RSA::load(json_encode($jwk), $password = false);
 
-        $rsa = new RSA;
-
-        $rsa->setSignatureMode(RSA::SIGNATURE_PSS);
-        $rsa->setSaltLength(0);
-        $rsa->setHash('sha256');
-        $rsa->setMGFHash('sha256');
-
-        if (!$rsa->loadKey($private_key->toPEM())) {
+        $key = $key->withHash('sha256')->withMGFHash('sha256')->withSaltLength(0);
+        if (!$key) {
             throw new Exception('Failed to read private RSA JWK');
         }
 
-        return $rsa;
+        return $key;
     }
 }
