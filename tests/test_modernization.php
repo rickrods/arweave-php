@@ -2,7 +2,7 @@
 // This script automatically generates an RSA key pair, initializes a wallet, signs a transaction,
 // and verifies the cryptographic signature using phpseclib 3.x.
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '../../vendor/autoload.php';
 
 use Arweave\SDK\Arweave;
 use Arweave\SDK\Support\Wallet;
