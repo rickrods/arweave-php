@@ -198,3 +198,54 @@ Update Wallet.php to use phpseclib3's native JWK loader and signature methods:
 #### Step 3: Refactor Arweave/SDK/Support/Transaction.php
 Update verify() in Transaction.php to verify signatures using phpseclib3
 
+## Testing
+#### Phase 1: Automated Self-Test Script (Offline Verification)
+- test_modernization.php located in the arweave-php project root. This script automatically generates an RSA key pair, initializes a wallet, signs a transaction, and verifies the cryptographic signature using phpseclib 3.x.
+To Run:  
+```php test_modernization.php```
+
+- Results
+```
+==================================================
+  Testing Modernized arweave-php Library
+==================================================
+
+1. Generating test RSA JWK Key...
+
+2. Testing Wallet Initialization...
+ [PASS] Wallet address generated successfully
+ [PASS] Wallet owner (modulus) matches JWK
+ [PASS] Wallet address length is valid base64url (43 chars)
+
+3. Testing Transaction Creation & RSA-PSS Signing...
+ [PASS] Transaction signature generated
+ [PASS] Transaction ID generated (43 chars)
+
+4. Testing Cryptographic Verification...
+ [PASS] Valid transaction signature verification returns TRUE
+
+5. Testing Tamper Security...
+ [PASS] Tampered transaction verification returns FALSE
+
+6. Testing Network Gateway Read (arweave.net)...
+ [PASS] Retrieved network transaction anchor
+
+==================================================
+Test Results: 8 Passed, 0 Failed
+==================================================
+```
+#### Phase 2: Formal PHPUnit Test Suite
+Currenty Using PHPUnit 9.6.37 by Sebastian Bergmann and contributors.
+
+```vendor/bin/phpunit tests```
+
+- Results
+```
+PHPUnit 9.6.37 by Sebastian Bergmann and contributors.
+
+..                                                                  2 / 2 (100%)
+
+Time: 00:00.329, Memory: 8.00 MB
+
+OK (2 tests, 4 assertions)
+```

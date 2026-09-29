@@ -52,7 +52,7 @@ class Wallet
     private function RSAPrivateFromJWK(array $jwk): RSA\PrivateKey
     {
         /** @var RSA\PrivateKey $rsa */
-        $rsa = PublicKeyLoader::loadFormat('JWK', json_encode($jwk));
+        $rsa = PublicKeyLoader::load(json_encode($jwk));
 
         if (!$rsa instanceof RSA\PrivateKey) {
             throw new Exception('Failed to read private RSA JWK');

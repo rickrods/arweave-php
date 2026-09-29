@@ -129,7 +129,7 @@ class Transaction
             'n'   => $this->attributes['owner']
         ];
         /** @var RSA\PublicKey $rsa */
-        $rsa = PublicKeyLoader::loadFormat('JWK', json_encode($jwk));
+        $rsa = PublicKeyLoader::load(json_encode($jwk));
         $rsa = $rsa->withPadding(RSA::SIGNATURE_PSS)
                    ->withHash('sha256')
                    ->withMGFHash('sha256')
