@@ -3,9 +3,7 @@
     "type": "library",
     "description": "Arweave PHP SDK",
     "license": "GPL-2.0",
-    "keywords": [
-        "arweave"
-    ],
+    "keywords": ["arweave"],
     "homepage": "https://arweave.org",
     "authors": [
         {
@@ -14,12 +12,11 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^7.4 || ^8.0",
         "ext-curl": "*",
         "ext-mbstring": "*",
         "ext-gmp": "*",
-        "phpseclib/phpseclib": "^3.0",
-        "web-token/jwt-framework": "^3.4.10"
+        "phpseclib/phpseclib": "^3.0"
     },
     "autoload": {
         "psr-4": {
