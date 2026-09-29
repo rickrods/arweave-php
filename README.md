@@ -202,7 +202,7 @@ Update verify() in Transaction.php to verify signatures using phpseclib3
 #### Phase 1: Automated Self-Test Script (Offline Verification)
 - test_modernization.php located in the arweave-php project root. This script automatically generates an RSA key pair, initializes a wallet, signs a transaction, and verifies the cryptographic signature using phpseclib 3.x.
 To Run:  
-```php test_modernization.php```
+```php tests/test_modernization.php```
 
 - Results
 ```
