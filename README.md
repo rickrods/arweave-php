@@ -196,5 +196,5 @@ Update the dependency requirements in arweave-php to drop web-token and enforce 
 Update Wallet.php to use phpseclib3's native JWK loader and signature methods:
 
 #### Step 3: Refactor Arweave/SDK/Support/Transaction.php
-Update verify() in Transaction.php to verify signatures using phpseclib3:
+Update verify() in Transaction.php to verify signatures using phpseclib3
 
